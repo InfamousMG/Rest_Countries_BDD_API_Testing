@@ -7,6 +7,7 @@ Feature: Retrieving information about countries
     When I request information about the country via parametrized endpoint
     Then the response status code should be 200
     And the response should contain the same name of the country as in the request
+    And the response should include essential details like <currencies>, <capital>, <region>, <languages>, <area>, <population>, and <timezone>
 
   Scenario: Check whether the list of countries is complete
     Given that the list of countries should contain 250 countries
