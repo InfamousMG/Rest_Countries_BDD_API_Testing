@@ -24,9 +24,22 @@ def step_then_response_status_code(context):
 
 @then("the response should contain the same name of the country as in the request")
 def step_then_response_country_info(context):
-    country_info = context.response.json()
-    assert "name" in country_info[0]
-    assert country_info[0]["name"]["common"] == context.country_name
+    context.country_info = context.response.json()
+    print(context.country_info)
+    assert "name" in context.country_info[0]
+    assert context.country_info[0]["name"]["common"] == context.country_name
+
+
+@then("the response should include essential details like {currencies}, {capital}, {region}, {languages}, {area}, "
+      "{population}, and {timezones}")
+def step_then_response_details(context, currencies, capital, region, languages, area, population, timezones):
+    assert "currencies" in context.country_info[0]
+    assert "capital" in context.country_info[0]
+    assert "region" in context.country_info[0]
+    assert "languages" in context.country_info[0]
+    assert "area" in context.country_info[0]
+    assert "population" in context.country_info[0]
+    assert "timezones" in context.country_info[0]
 
 
 @given("that the list of countries should contain 250 countries")
