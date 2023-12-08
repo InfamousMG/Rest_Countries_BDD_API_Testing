@@ -75,9 +75,9 @@ def step_then_countries_are_on_list(context, countries):
                                                                                               "are not on the list")
 
 
-@given("the language")
-def step_given_language(context):
-    context.language = "german"
+@given("the {language}")
+def step_given_language(context, language):
+    context.language = "English"
 
 
 @when("I request for a list of countries that use this language")
@@ -90,9 +90,12 @@ def step_when_request_list_of_countries_using_language(context):
 @then("a list of countries using that language is created")
 def step_then_the_list_is_created(context):
     countries_with_language = []
-    number_of_country = 0
-    for country in range(0, 6):
-        countries_with_language.append(context.response_lang_json[number_of_country]["name"]["common"])
-        number_of_country += 1
+    country_position = 0
+    number_of_countries = len(context.response_lang_json)
+    for country in range(0, number_of_countries):
+        countries_with_language.append(context.response_lang_json[country_position]["name"]["common"])
+        country_position += 1
 
+    key = next(iter(context.response_lang_json[0]["languages"]))
     print(countries_with_language)
+    assert context.response_lang_json[0]["languages"][key] == context.language

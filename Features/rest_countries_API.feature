@@ -19,6 +19,6 @@ Feature: Retrieving information about countries
 
   @language
   Scenario: Search for countries that use a specific language
-    Given the language
+    Given the <language>
     When I request for a list of countries that use this language
     Then a list of countries using that language is created
