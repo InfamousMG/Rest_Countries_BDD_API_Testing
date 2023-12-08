@@ -1,7 +1,7 @@
 import requests
 from behave import *
 from Utilities.configuration import get_config
-from Utilities.list_of_countries import countries_list
+from Utilities.list_of_countries import countries_list, countries_count
 
 config = get_config()
 
@@ -42,22 +42,24 @@ def step_then_response_details(context, currencies, capital, region, languages, 
     assert "timezones" in context.country_info[0], "timezones field is not present"
 
 
-@given("that the list of countries should contain 250 countries")
-def step_given_list_of_countries(context):
-    context.complete_list = 250
+@given("that the list of countries should contain {number_of_countries} countries")
+def step_given_countries_count(context, number_of_countries):
+    context.number_of_countries = countries_count()
 
 
-@when("I call /all endpoint")
+@when("I call /all endpoint and create a list of countries")
 def step_when_request_all_endpoint(context):
     context.countries_list = countries_list()
 
 
-@then("the list of countries has 250 positions")
-def step_then_250_positions(context):
-    assert len(context.countries_list) == context.complete_list
+@then("the list of countries has {number_of_countries} positions")
+def step_then_x_positions(context, number_of_countries):
+    assert len(context.countries_list) == context.number_of_countries, ("number of countries on the list do not match "
+                                                                        "with the number of countries returned by "
+                                                                        "/all endpoint")
 
 
-@given("the <countries> names in a list")
+@given("the <countries> names on a parametrized list")
 def step_given_specific_countries(context):
     context.specific_countries = ["Vatican City", "Israel", "Bulgaria"]
 
@@ -67,7 +69,30 @@ def step_when_calling_all_endpoint(context):
     context.countries_list = countries_list()
 
 
-@then("the <countries> is on the list of countries returned by /all endpoint")
-def step_then_countries_on_list(context):
+@then("the {countries} are on the list of countries returned by /all endpoint")
+def step_then_countries_are_on_list(context, countries):
     assert all(country in context.countries_list for country in context.specific_countries), ("Some of these countries "
                                                                                               "are not on the list")
+
+
+@given("the language")
+def step_given_language(context):
+    context.language = "german"
+
+
+@when("I request for a list of countries that use this language")
+def step_when_request_list_of_countries_using_language(context):
+    context.lang_url = f"{config['API']['base_url']}/lang/{context.language}"
+    context.response_lang = requests.get(context.lang_url)
+    context.response_lang_json = context.response_lang.json()
+
+
+@then("a list of countries using that language is created")
+def step_then_the_list_is_created(context):
+    countries_with_language = []
+    number_of_country = 0
+    for country in range(0, 6):
+        countries_with_language.append(context.response_lang_json[number_of_country]["name"]["common"])
+        number_of_country += 1
+
+    print(countries_with_language)
