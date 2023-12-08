@@ -8,11 +8,17 @@ Feature: Retrieving information about countries
     And the response should include essential details like <currencies>, <capital>, <region>, <languages>, <area>, <population>, and <timezone>
 
   Scenario: Check whether the list of countries is complete
-    Given that the list of countries should contain 250 countries
-    When I call /all endpoint
-    Then the list of countries has 250 positions
+    Given that the list of countries should contain <number_of_countries> countries
+    When I call /all endpoint and create a list of countries
+    Then the list of countries has <number_of_countries> positions
 
-  Scenario: Check whether countries in a list are available on the list of countries returned by /all endpoint
-    Given the <countries> names in a list
+  Scenario: Check whether countries on a list are available on the list of countries returned by /all endpoint
+    Given the <countries> names on a parametrized list
     When I call /all endpoint to create a list of countries
-    Then the <countries> is on the list of countries returned by /all endpoint
+    Then the <countries> are on the list of countries returned by /all endpoint
+
+  @language
+  Scenario: Search for countries that use a specific language
+    Given the language
+    When I request for a list of countries that use this language
+    Then a list of countries using that language is created
