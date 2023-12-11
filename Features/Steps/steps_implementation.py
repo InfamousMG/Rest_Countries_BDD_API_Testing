@@ -77,7 +77,7 @@ def step_then_countries_are_on_list(context, countries):
 
 @given("the {language}")
 def step_given_language(context, language):
-    context.language = "English"
+    context.language = "Chinese"
 
 
 @when("I request for a list of countries that use this language")
@@ -87,16 +87,45 @@ def step_when_request_list_of_countries_using_language(context):
     context.response_lang_json = context.response_lang.json()
 
 
-@then("a list of countries using that language is created and the presence of the language is checked among them")
+@then("a list of countries using that language is created")
 def step_then_the_list_is_created(context):
     countries_with_language = []
     country_position = 0
-    number_of_countries = len(context.response_lang_json)
-    for country in range(0, number_of_countries):
+    context.number_of_countries = len(context.response_lang_json)
+    for country in range(0, context.number_of_countries):
         countries_with_language.append(context.response_lang_json[country_position]["name"]["common"])
         country_position += 1
 
     print(countries_with_language)
-    countries_languages = context.response_lang_json[0]["languages"]
-    assert context.language in countries_languages.values()
 
+
+@then("the presence of the language is checked among those countries")
+def step_then_language_check(context):
+    countries_languages = []
+    position = 0
+    for each_country in range(0, context.number_of_countries):
+        countries_languages.append(context.response_lang_json[position]["languages"])
+        position += 1
+
+    print(countries_languages)
+
+    for each_dictionary in countries_languages:
+        assert any(value == context.language for value in each_dictionary.values()), (f"{context.language} is not "
+                                                                                      f"present on the list of "
+                                                                                      f"languages")
+
+
+@given("a name of an imaginary country")
+def step_given_imaginary_country(context):
+    context.imaginary_country = "Russlandia"
+
+
+@when("I call a parametrized endpoint to retrieve information about the country")
+def step_when_calling_parametrized_endpoint(context):
+    context.url = f"{config['API']['base_url']}/name/{context.imaginary_country}"
+    context.response = requests.get(context.url)
+
+
+@then("the response status code should be 404 not found")
+def step_then_status_404(context):
+    assert context.response.status_code == 404, "status code is not 404 not found"

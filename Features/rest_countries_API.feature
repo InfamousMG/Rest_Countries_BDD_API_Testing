@@ -21,4 +21,11 @@ Feature: Retrieving information about countries
   Scenario: Search for countries that use a specific language
     Given the <language>
     When I request for a list of countries that use this language
-    Then a list of countries using that language is created and the presence of the language is checked among them
+    Then a list of countries using that language is created
+    And the presence of the language is checked among those countries
+
+  @invalid_country_name
+  Scenario: Seek countries that don't exist
+    Given a name of an imaginary country
+    When I call a parametrized endpoint to retrieve information about the country
+    Then the response status code should be 404 not found
