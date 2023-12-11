@@ -87,7 +87,7 @@ def step_when_request_list_of_countries_using_language(context):
     context.response_lang_json = context.response_lang.json()
 
 
-@then("a list of countries using that language is created")
+@then("a list of countries using that language is created and the presence of the language is checked among them")
 def step_then_the_list_is_created(context):
     countries_with_language = []
     country_position = 0
@@ -96,6 +96,7 @@ def step_then_the_list_is_created(context):
         countries_with_language.append(context.response_lang_json[country_position]["name"]["common"])
         country_position += 1
 
-    key = next(iter(context.response_lang_json[0]["languages"]))
     print(countries_with_language)
-    assert context.response_lang_json[0]["languages"][key] == context.language
+    countries_languages = context.response_lang_json[0]["languages"]
+    assert context.language in countries_languages.values()
+
