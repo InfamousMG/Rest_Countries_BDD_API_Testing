@@ -17,3 +17,14 @@ def countries_list():
         country_position += 1
 
     return list_of_countries
+
+
+def countries_languages():
+    list_of_languages = []
+    position_of_country = 0
+    for language in range(0, countries_count()):
+        languages_dict = response_json[position_of_country].get("languages", {})
+        list_of_languages.extend(languages_dict.values())
+        position_of_country += 1
+
+    return list_of_languages
