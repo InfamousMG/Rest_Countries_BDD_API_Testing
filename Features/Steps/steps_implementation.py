@@ -2,7 +2,7 @@ import requests
 import random
 from behave import *
 from Utilities.configuration import get_config
-from Utilities.list_of_countries import countries_list, countries_count
+from Utilities.countries_details import countries_list, countries_count, countries_languages
 
 config = get_config()
 
@@ -79,12 +79,12 @@ def step_then_countries_are_on_list(context):
 
 @given("the language")
 def step_given_language(context):
-    context.language = "Chinese"
+    context.random_language = random.choice(countries_languages())
 
 
 @when("I request for a list of countries that use this language")
 def step_when_request_list_of_countries_using_language(context):
-    context.lang_url = f"{config['API']['base_url']}/lang/{context.language}"
+    context.lang_url = f"{config['API']['base_url']}/lang/{context.random_language}"
     context.response_lang = requests.get(context.lang_url)
     context.response_lang_json = context.response_lang.json()
 
@@ -109,12 +109,11 @@ def step_then_language_check(context):
         countries_languages.append(context.response_lang_json[position]["languages"])
         position += 1
 
-    print(countries_languages)
-
     for each_dictionary in countries_languages:
-        assert any(value == context.language for value in each_dictionary.values()), (f"{context.language} is not "
-                                                                                      f"present on the list of "
-                                                                                      f"languages")
+        assert any(value == context.random_language for value in each_dictionary.values()), (f"{context.language} is "
+                                                                                             f"not"
+                                                                                             f"present on the list of "
+                                                                                             f"languages")
 
 
 @given("a name of an imaginary country")
