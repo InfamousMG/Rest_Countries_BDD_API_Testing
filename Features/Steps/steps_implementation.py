@@ -1,4 +1,5 @@
 import requests
+import random
 from behave import *
 from Utilities.configuration import get_config
 from Utilities.list_of_countries import countries_list, countries_count
@@ -6,14 +7,15 @@ from Utilities.list_of_countries import countries_list, countries_count
 config = get_config()
 
 
-@given("the name of a {country}")
-def step_given_country_name(context, country):
-    context.country_name = "Poland"
+@given("the name of a country")
+def step_given_country_name(context):
+    """The name of a country is randomly picked from countries list"""
+    context.random_country_name = random.choice(countries_list())
 
 
 @when("I request information about the country via parametrized endpoint")
 def step_when_request_country_info(context):
-    context.url = f"{config['API']['base_url']}/name/{context.country_name}"
+    context.url = f"{config['API']['base_url']}/name/{context.random_country_name}"
     context.response = requests.get(context.url)
 
 
@@ -26,8 +28,8 @@ def step_then_response_status_code(context):
 def step_then_response_country_info(context):
     context.country_info = context.response.json()
     assert "name" in context.country_info[0], "name field is not present"
-    assert context.country_info[0]["name"]["common"] == context.country_name, ("the name is not the same as in the "
-                                                                               "request")
+    assert context.country_info[0]["name"]["common"] == context.random_country_name, ("the name is not the same as in "
+                                                                                      "the request")
 
 
 @then("the response should include essential details like {currencies}, {capital}, {region}, {languages}, {area}, "
