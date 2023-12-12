@@ -16,7 +16,7 @@ def step_given_country_name(context):
 @when("I request information about the country via parametrized endpoint")
 def step_when_request_country_info(context):
     context.url = f"{config['API']['base_url']}/name/{context.random_country_name}"
-    context.response = requests.get(context.url)
+    context.response = requests.get(context.url, verify=False)
 
 
 @then("the response status code should be 200")
@@ -85,7 +85,7 @@ def step_given_language(context):
 @when("I request for a list of countries that use this language")
 def step_when_request_list_of_countries_using_language(context):
     context.lang_url = f"{config['API']['base_url']}/lang/{context.random_language}"
-    context.response_lang = requests.get(context.lang_url)
+    context.response_lang = requests.get(context.lang_url, verify=False)
     context.response_lang_json = context.response_lang.json()
 
 
@@ -124,7 +124,7 @@ def step_given_imaginary_country(context):
 @when("I call a parametrized endpoint to retrieve information about the country")
 def step_when_calling_parametrized_endpoint(context):
     context.url = f"{config['API']['base_url']}/name/{context.imaginary_country}"
-    context.response = requests.get(context.url)
+    context.response = requests.get(context.url, verify=False)
 
 
 @then("the response status code should be 404 not found")

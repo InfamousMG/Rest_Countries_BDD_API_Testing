@@ -1,6 +1,6 @@
 import requests
 
-response = requests.get(url="https://restcountries.com/v3.1/all")
+response = requests.get(url="https://restcountries.com/v3.1/all", verify=False)
 response_json = response.json()
 
 
