@@ -44,24 +44,24 @@ def step_then_response_details(context, currencies, capital, region, languages, 
     assert "timezones" in context.country_info[0], "timezones field is not present"
 
 
-@given("that the list of countries should contain {number_of_countries} countries")
-def step_given_countries_count(context, number_of_countries):
+@given("that the list of countries should contain a certain number of countries")
+def step_given_countries_count(context):
     context.number_of_countries = countries_count()
 
 
-@when("I call /all endpoint and create a list of countries")
+@when("I call /all endpoint and create a list of countries based on their names")
 def step_when_request_all_endpoint(context):
     context.countries_list = countries_list()
 
 
-@then("the list of countries has {number_of_countries} positions")
-def step_then_x_positions(context, number_of_countries):
+@then("the list of countries has a certain number of countries positions")
+def step_then_x_positions(context):
     assert len(context.countries_list) == context.number_of_countries, ("number of countries on the list do not match "
                                                                         "with the number of countries returned by "
                                                                         "/all endpoint")
 
 
-@given("the <countries> names on a parametrized list")
+@given("the countries names on a parametrized list")
 def step_given_specific_countries(context):
     context.specific_countries = ["Vatican City", "Israel", "Bulgaria"]
 
@@ -71,14 +71,14 @@ def step_when_calling_all_endpoint(context):
     context.countries_list = countries_list()
 
 
-@then("the {countries} are on the list of countries returned by /all endpoint")
-def step_then_countries_are_on_list(context, countries):
+@then("the given countries are on the list of countries returned by /all endpoint")
+def step_then_countries_are_on_list(context):
     assert all(country in context.countries_list for country in context.specific_countries), ("Some of these countries "
                                                                                               "are not on the list")
 
 
-@given("the {language}")
-def step_given_language(context, language):
+@given("the language")
+def step_given_language(context):
     context.language = "Chinese"
 
 
@@ -130,4 +130,4 @@ def step_when_calling_parametrized_endpoint(context):
 
 @then("the response status code should be 404 not found")
 def step_then_status_404(context):
-    assert context.response.status_code == 404, "status code is not 404 not found"
+    assert context.response.status_code == 404, "status code is not 404 not found, the country shouldn't exist"
