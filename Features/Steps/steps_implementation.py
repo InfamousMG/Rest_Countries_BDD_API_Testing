@@ -46,11 +46,15 @@ def step_then_response_details(context, currencies, capital, region, languages, 
 
 @given("that the list of countries should contain a certain number of countries")
 def step_given_countries_count(context):
+    """The number of countries is calculated based on the countries_count() function from the external countries_details
+    file"""
     context.number_of_countries = countries_count()
 
 
 @when("I call /all endpoint and create a list of countries based on their names")
 def step_when_request_all_endpoint(context):
+    """The list of countries is created based on the countries_list() function from the external countries_details
+    file"""
     context.countries_list = countries_list()
 
 
@@ -63,6 +67,7 @@ def step_then_x_positions(context):
 
 @given("the countries names on a parametrized list")
 def step_given_specific_countries(context):
+    """The context.specific_countries list can be changed"""
     context.specific_countries = ["Vatican City", "Israel", "Bulgaria"]
 
 
@@ -79,6 +84,7 @@ def step_then_countries_are_on_list(context):
 
 @given("the language")
 def step_given_language(context):
+    """The language is picked randomly from a list of languages created by countries_languages() function"""
     context.random_language = random.choice(countries_languages())
 
 
@@ -103,13 +109,13 @@ def step_then_the_list_is_created(context):
 
 @then("the presence of the language is checked among those countries")
 def step_then_language_check(context):
-    countries_languages = []
+    countries_languages_list = []
     position = 0
     for each_country in range(0, context.number_of_countries):
-        countries_languages.append(context.response_lang_json[position]["languages"])
+        countries_languages_list.append(context.response_lang_json[position]["languages"])
         position += 1
 
-    for each_dictionary in countries_languages:
+    for each_dictionary in countries_languages_list:
         assert any(value == context.random_language for value in each_dictionary.values()), (f"{context.language} is "
                                                                                              f"not"
                                                                                              f"present on the list of "
@@ -118,7 +124,8 @@ def step_then_language_check(context):
 
 @given("a name of an imaginary country")
 def step_given_imaginary_country(context):
-    context.imaginary_country = "Russlandia"
+    """The imaginary_country variable can be changed and should not be a name of a real country"""
+    context.imaginary_country = "Russland"
 
 
 @when("I call a parametrized endpoint to retrieve information about the country")
