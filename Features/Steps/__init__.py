@@ -1,1 +1,1 @@
-print("Initialazing the 'steps' package...")
+print("Initializing the 'steps' package...")
