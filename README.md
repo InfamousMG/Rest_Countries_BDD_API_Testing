@@ -13,9 +13,9 @@ I have developed this project as a part of my portfolio as a Quality Control Eng
 ## General info
 The documentation of the API is located here: https://restcountries.com/
 
-To introduce Behavior-Driven Development I make use of Behave framework together with Gherkin language to write natural-language-styled test scenarios. 
+To introduce Behavior-Driven Development, I make use of Behave framework together with Gherkin language to write natural-language-styled test scenarios. 
 Python's Requests library is utilized to operate API calls and Allure is a tool used to build reports.
-Also, to be able to apply BDD, PyCharm in professional edition is needed (Pycharm community version does not support BDD).
+Also, to be able to apply BDD, PyCharm in professional edition is required (Pycharm community version does not support BDD).
 
 ## Technologies
 Project is created with:
@@ -35,5 +35,5 @@ Then, clone the repository from GitHub https://github.com/InfamousMG/Rest_Countr
 - To trigger all scenarios at once, run 'behave' in the terminal.
 - To trigger particular scenarios marked with tags, run 'behave --tags=<scenario tag>'
 - To trigger scenarios with print statements, run 'behave --no-capture'
-- To create a report in Allure, run 'behave -f allure_behave.formatter:AllureFormatter -o AllureReports'. In AllureReports folder, there is an example of report with a screenshot of html version opened in a browser
-- To view the Allure report in a browser (html format), navigate to a directory where your 'allure-commandline-2.13.8\allure-2.13.8\bin' is located and run 'allure serve <location of your Allure Report'
+- To create a report in Allure, run 'behave -f allure_behave.formatter:AllureFormatter -o AllureReports'. In AllureReports folder, there is an example of a report with a screenshot of html version opened in a browser
+- To view the Allure report in a browser (html format), navigate to a directory where your 'allure-commandline-2.13.8\allure-2.13.8\bin' is located and run 'allure serve <location of your Allure Report>'
