@@ -33,7 +33,7 @@ Then, clone the repository from GitHub https://github.com/InfamousMG/Rest_Countr
 
 ## Usage
 - To trigger all scenarios at once, run 'behave' in the terminal.
-- To trigger particular scenarios marked with tags, run 'behave --tags=<scenario tag>'
+- To trigger particular scenarios marked with tags, run 'behave --tags="scenario tag"'
 - To trigger scenarios with print statements, run 'behave --no-capture'
 - To create a report in Allure, run 'behave -f allure_behave.formatter:AllureFormatter -o AllureReports'. In AllureReports folder, there is an example of a report with a screenshot of html version opened in a browser
-- To view the Allure report in a browser (html format), navigate to a directory where your 'allure-commandline-2.13.8\allure-2.13.8\bin' is located and run 'allure serve <location of your Allure Report>'
+- To view the Allure report in a browser (html format), navigate to a directory where your 'allure-commandline-2.13.8\allure-2.13.8\bin' is located and run 'allure serve "location of your Allure Report"'
