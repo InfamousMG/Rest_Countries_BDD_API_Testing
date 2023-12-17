@@ -32,9 +32,9 @@ def step_then_response_country_info(context):
                                                                                       "the request")
 
 
-@then("the response should include essential details like {currencies}, {capital}, {region}, {languages}, {area}, "
-      "{population}, and {timezones}")
-def step_then_response_details(context, currencies, capital, region, languages, area, population, timezones):
+@then("the response should include essential details like currencies, capital, region, languages, area, "
+      "population, and timezones")
+def step_then_response_details(context):
     assert "currencies" in context.country_info[0], "currencies field is not present"
     assert "capital" in context.country_info[0], "capital field is not present"
     assert "region" in context.country_info[0], "region field is not present"
@@ -65,13 +65,13 @@ def step_then_x_positions(context):
                                                                         "/all endpoint")
 
 
-@given("the countries names on a parametrized list")
-def step_given_specific_countries(context):
+@given("I have a list of countries with {countries}")
+def step_given_specific_countries(context, countries):
     """The context.specific_countries list can be changed"""
-    context.specific_countries = ["Vatican City", "Israel", "Bulgaria"]
+    context.specific_countries = [val for val in countries.split(', ')]
 
 
-@when("I call /all endpoint to create a list of countries")
+@when("I call /all endpoint to create a list of countries and compare it to the list above")
 def step_when_calling_all_endpoint(context):
     context.countries_list = countries_list()
 
@@ -82,7 +82,7 @@ def step_then_countries_are_on_list(context):
                                                                                               "are not on the list")
 
 
-@given("the language")
+@given("a random language from a list of languages")
 def step_given_language(context):
     """The language is picked randomly from a list of languages created by countries_languages() function"""
     context.random_language = random.choice(countries_languages())
@@ -122,10 +122,10 @@ def step_then_language_check(context):
                                                                                              f"languages")
 
 
-@given("a name of an imaginary country")
-def step_given_imaginary_country(context):
+@given("a name of an imaginary {country}")
+def step_given_imaginary_country(context, country):
     """The imaginary_country variable can be changed and should not be a name of a real country"""
-    context.imaginary_country = "Russland"
+    context.imaginary_country = country
 
 
 @when("I call a parametrized endpoint to retrieve information about the country")
@@ -136,4 +136,5 @@ def step_when_calling_parametrized_endpoint(context):
 
 @then("the response status code should be 404 not found")
 def step_then_status_404(context):
-    assert context.response.status_code == 404, "status code is not 404 not found, the country shouldn't exist"
+    assert context.response.status_code == 404, ("status code is not 404 not found, the country shouldn't exist but it "
+                                                 "does")
