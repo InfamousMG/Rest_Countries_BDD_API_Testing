@@ -122,10 +122,10 @@ def step_then_language_check(context):
                                                                                              f"languages")
 
 
-@given("a name of an imaginary {country}")
-def step_given_imaginary_country(context, country):
+@given("a name of a {fake_country}")
+def step_given_imaginary_country(context, fake_country):
     """The imaginary_country variable can be changed and should not be a name of a real country"""
-    context.imaginary_country = country
+    context.imaginary_country = fake_country
 
 
 @when("I call a parametrized endpoint to retrieve information about the country")
