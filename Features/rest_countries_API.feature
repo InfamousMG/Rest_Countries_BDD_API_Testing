@@ -22,6 +22,8 @@ Feature: Retrieving information about countries
       Examples:
       | countries |
       | Poland, China, Turkey |
+      | Russia, Belarus, Argentina |
+      | Bangladesh, Morocco, South Africa |
 
   @language
   Scenario: Search for countries that use a specific language
@@ -32,6 +34,6 @@ Feature: Retrieving information about countries
 
   @invalid_country_name
   Scenario: Seek countries that don't exist
-    Given a name of an imaginary <fake_country>
+    Given a name of a <fake_country>
     When I call a parametrized endpoint to retrieve information about the country
     Then the response status code should be 404 not found
